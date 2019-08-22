@@ -4,8 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -28,41 +31,6 @@ public class ImageConverter {
 		
 		return RGBImage;
 	}
-	private static void fillWithChannel(List<Float> tmpBuffer, final int channel, final DataBuffer imageDataBuffer) {
-		for (int i = channel; i < imageDataBuffer.getSize(); i += N_CHANNELS) {
-			tmpBuffer.add((float)imageDataBuffer.getElem(i));
-		}
-	}
-	private static void fillArray(float[] tmpArray, List<Float> tmpBuffer) {
-		for (int i = 0; i < tmpArray.length; i++) {
-			tmpArray[i] = tmpBuffer.get(i);
-		}
-	}
-	private static FloatMatrix createMatrix(int width, int height, List<Float> tmpBuffer) {
-		FloatMatrix matrix;
-		float[] tmpArray = new float[tmpBuffer.size()];
-		
-		fillArray(tmpArray, tmpBuffer);
-		matrix = new FloatMatrix(height, width, tmpArray);
-		
-		return matrix;
-	}
-	private static FloatMatrix[] createRGBMatrices(BufferedImage rgbImage) {
-		List<Float> tmpBuffer = new LinkedList<Float>();
-		FloatMatrix[] rgbImagePixels = new FloatMatrix[N_CHANNELS];
-		
-		fillWithChannel(tmpBuffer, R, rgbImage.getData().getDataBuffer());
-		rgbImagePixels[R] = createMatrix(rgbImage.getWidth(), rgbImage.getHeight(), tmpBuffer);
-		tmpBuffer.clear();
-		fillWithChannel(tmpBuffer, G, rgbImage.getData().getDataBuffer());
-		rgbImagePixels[G] = createMatrix(rgbImage.getWidth(), rgbImage.getHeight(), tmpBuffer);
-		tmpBuffer.clear();
-		fillWithChannel(tmpBuffer, B, rgbImage.getData().getDataBuffer());
-		rgbImagePixels[B] = createMatrix(rgbImage.getWidth(), rgbImage.getHeight(), tmpBuffer);
-		tmpBuffer.clear();
-		
-		return rgbImagePixels;
-	}
 	private static FloatMatrix[] convertRGB2YPbPr(FloatMatrix[] rgbImagePixels) {
 		FloatMatrix[] ypbprImagePixels = new FloatMatrix[N_CHANNELS];
 		
@@ -82,8 +50,36 @@ public class ImageConverter {
 				
 		return ypbprImagePixels;
 	}
-	/*
-	public static float[][][] rgb2ypbpr(File rgbImageFile) {
+	
+	private static FloatMatrix createMatrixFast(int rows, int columns, FloatBuffer tmpBuffer) {
+		FloatMatrix matrix;
+		
+		matrix = new FloatMatrix(rows, columns, tmpBuffer.array());
+		
+		return matrix;
+	}
+	private static void fillWithChannelFast(FloatBuffer tmpBuffer, final int channel, final DataBuffer imageDataBuffer) {
+		for (int i = channel; i < imageDataBuffer.getSize(); i += N_CHANNELS) {
+			tmpBuffer.put((float)imageDataBuffer.getElem(i));
+		}
+	}
+	private static FloatMatrix[] createRGBMatricesFast(BufferedImage rgbImage) {
+		FloatMatrix[] rgbImagePixels = new FloatMatrix[N_CHANNELS];
+		FloatBuffer tmpBuffer;
+		
+		for (int i = 0; i < N_CHANNELS; i++) {
+			tmpBuffer = FloatBuffer.allocate(rgbImage.getHeight() * rgbImage.getWidth());
+			fillWithChannelFast(tmpBuffer, i, rgbImage.getData().getDataBuffer());
+			rgbImagePixels[i] = createMatrixFast(rgbImage.getHeight(), rgbImage.getWidth(), tmpBuffer);
+		}
+		
+		return rgbImagePixels;
+	}
+	
+	public static Stream<Object> flatten(Object[] array) {
+	    return Arrays.stream(array).flatMap(o -> o instanceof Object[]? flatten((Object[])o): Stream.of(o));
+	}
+	public static BufferedImage rgb2ypbpr(File rgbImageFile) {
 		BufferedImage rgbImage = null;
 		BufferedImage ypbprImage = null;
 
@@ -92,20 +88,23 @@ public class ImageConverter {
 		
 		rgbImage = readImage(rgbImageFile);
 		
-		rgbImagePixels = createRGBMatrices(rgbImage);
+		if (rgbImage.getType() != BufferedImage.TYPE_3BYTE_BGR) {
+			System.out.println("Not able to convert this image");
+			System.exit(1);
+		}
+		
+		rgbImagePixels = createRGBMatricesFast(rgbImage);
 		ypbprImagePixels = convertRGB2YPbPr(rgbImagePixels);
 		
-		// bicubic interpolation of pbpr - x2 scale
+		// write ypbprimage on file
 		
-		//return the matrices in an array form
 		
-		return null;
+		
+		// fill ypbprBuffer ?
+		
+		
+		return ypbprImage;
 	}
-	public static void writeArrayToImage(float[][][] byteImage) {
-		// convert the array into a buffered image and writes the result on file
-	}
-	public static float[][][][] toTensorflowInputShape(float[][][]) {
 	
-	}
-	*/
+	// need bicubic interpolation (pbpr - x2 scale)
 }
