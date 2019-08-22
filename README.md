@@ -19,7 +19,7 @@ public static FloatMatrix[] convertRGB2Custom(FloatMatrix[] rgbImagePixels) {
     */
 } 
 ```
-Where the returned FloatMatrix[] is the converted image of shape {HEIGHT, WIDTH, 3}.
+Where the returned FloatMatrix[] is the converted image of shape {HEIGHT, WIDTH, 3}.\
 For JBlas matrix operation and api [have a look here](http://www.jblas.org/javadoc/index.html).
 
 Once done that you only have to call the method :
