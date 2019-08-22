@@ -2,8 +2,8 @@
 
 Class for ***FAST*** color space conversion.
 
->_Actually only RGB to Ypbpr has been implemented._
-> _Consistency of conversion hasn't been tested_ 
+>_Actually only **RGB to Ypbpr** has been implemented._\
+> _Consistency hasn't been tested_ 
 
 ## Custom color space conversions
 
