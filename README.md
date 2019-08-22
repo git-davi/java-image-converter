@@ -20,7 +20,7 @@ public static FloatMatrix[] convertRGB2Custom(FloatMatrix[] rgbImagePixels) {
 
 Once done that you only have to call the method :
 ```java
-    ImageConverter.rgbConvert(new File("path/to/file"), YourClassName::convertRGB2Custom);
+ImageConverter.rgbConvert(new File("path/to/file"), YourClassName::convertRGB2Custom);
 ```
 
 
