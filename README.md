@@ -1,6 +1,7 @@
 # java-image-converter
 
-Class for ***FAST*** conversion from RGB to Ypbpr color space.
+Class for ***FAST*** color space conversion.\
+Actually only RGB to Ypbpr has been implemented.\
 Custom conversions can be added easily.
 
 Bicubic Interpolation will be added soon.
