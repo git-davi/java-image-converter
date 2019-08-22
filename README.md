@@ -2,11 +2,8 @@
 
 Class for ***FAST*** color space conversion.
 
-_Actually only RGB to Ypbpr has been implemented._
-
-[Bicubic Interpolation will be added soon.]
-
-> **Consistency of conversion hasn't been tested** 
+>_Actually only RGB to Ypbpr has been implemented._
+> _Consistency of conversion hasn't been tested_ 
 
 ## Custom color space conversions
 
@@ -33,3 +30,7 @@ For ***JBlas documentation*** and api [have a look here](http://www.jblas.org/ja
 
 - JBlas 1.2.4 : for fast linear algebra.
 - Java >= 8
+
+## On work
+
+[Bicubic Interpolation will be added soon.]
