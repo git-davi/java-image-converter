@@ -7,7 +7,7 @@ Class for ***FAST*** color space conversion.
 
 ## Custom color space conversions
 
-Other conversion can be added simply by creating a custom method inside your class :
+Other conversiosn can be added simply by creating a custom method inside your class :
 ```java
 public static FloatMatrix[] convertRGB2Custom(FloatMatrix[] rgbImagePixels) {
     /*
@@ -18,7 +18,7 @@ public static FloatMatrix[] convertRGB2Custom(FloatMatrix[] rgbImagePixels) {
 } 
 ```
 
-Once done that you only have to call the method :
+Once done that you'll only have to call the method :
 ```java
 ImageConverter.rgbConvert(new File("path/to/file"), YourClassName::convertRGB2Custom);
 ```
