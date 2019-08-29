@@ -1,6 +1,8 @@
 # java-image-converter
 
-Class for ***FAST*** color space conversion.
+Class for ***FAST*** color space conversion.\
+\
+Also bicubic interpolation has been added.
 
 >_Actually only **RGB to Ypbpr** has been implemented._\
 > _Consistency hasn't been tested_ 
@@ -23,8 +25,19 @@ Once done that you'll only have to call the method :
 ImageConverter.rgbConvert(new File("path/to/file"), YourClassName::convertRGB2Custom);
 ```
 
-
 For ***JBlas documentation*** and api [have a look here](http://www.jblas.org/javadoc/index.html).
+
+
+## Resize images with bicubic interpolation
+
+Just call the static method :
+```java
+BicubicInterp.resizeImage(new File("<path to your image>"), 2.0);
+```
+The second argument is the scaling factor of the image.\
+\
+Your image will be saved into img folder.
+
 
 ## Dependecies 
 
