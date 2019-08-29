@@ -23,22 +23,6 @@ public class ImageConverter {
 	
 	
 	/*
-	 * This method takes the rgb file and load 
-	 * in memory the associated BufferedImage
-	 */
-	private static BufferedImage readImage(File rgbImageFile) {
-		BufferedImage RGBImage = null;
-		
-		try {
-			RGBImage = ImageIO.read(rgbImageFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return RGBImage;
-	}
-	
-	/*
 	 * This method takes translate the image into a 3-Dimensional tensor.
 	 * Returned with the FloatMatrix array. Shape (width, height, 3)
 	 */
@@ -55,6 +39,7 @@ public class ImageConverter {
 		return rgbImagePixels;
 	}
 	
+
 	/*
 	 * This method takes the imageDataBuffer and fills the FloatBuffer
 	 * with the value of each channel, by skipping three byte each cycle
@@ -65,6 +50,7 @@ public class ImageConverter {
 		}
 	}
 	
+
 	/*
 	 * This is the fast implementation for loading a matrix of size
 	 * rows and width columns from a Float Buffer.
@@ -76,7 +62,6 @@ public class ImageConverter {
 		
 		return matrix;
 	}
-	
 	
 	
 	/*
@@ -116,7 +101,7 @@ public class ImageConverter {
 		FloatMatrix[] rgbImagePixels;
 		FloatMatrix[] ypbprImagePixels;
 		
-		rgbImage = readImage(rgbImageFile);
+		rgbImage = BicubicInterp.readImage(rgbImageFile);
 		
 		if (rgbImage.getType() != BufferedImage.TYPE_3BYTE_BGR) {
 			System.out.println("Not able to convert this image");
@@ -126,19 +111,16 @@ public class ImageConverter {
 		rgbImagePixels = createRGBMatricesFast(rgbImage);
 		ypbprImagePixels = colorSpaceConversion.apply(rgbImagePixels);
 		
-		// write ypbprimage on file
 		
-		
-		// fill ypbprBuffer ?
-		
+		// fill ypbprImage
+		// what should i return?
 		
 		return ypbprImage;
 	}	
 	
-	// need bicubic interpolation (pbpr - x2 scale)
 	
 	/*
-	 * Method for making flat an Array.
+	 * Method for flatting an Array.
 	 */
 	public static Stream<Object> flatten(Object[] array) {
 	    return Arrays.stream(array).flatMap(o -> o instanceof Object[]? flatten((Object[])o): Stream.of(o));
