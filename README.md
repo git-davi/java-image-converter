@@ -43,7 +43,3 @@ Your image will be saved into img folder.
 
 - JBlas 1.2.4 : for fast linear algebra.
 - Java >= 8
-
-## On work
-
-[Bicubic Interpolation will be added soon.]
