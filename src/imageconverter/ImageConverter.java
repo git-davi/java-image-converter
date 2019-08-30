@@ -59,7 +59,24 @@ public class ImageConverter {
 		
 		return matrix;
 	}
+		
 	
+	/*
+	 * Convert matrix array to tensor [rows][columns][channels]
+	 */
+	private static float[][][] matrixToTensor(FloatMatrix[] matrices) {
+		float[][][] tensor = new float[matrices[0].rows]
+				[matrices[0].columns]
+						[matrices.length];
+		
+		
+		for (int i = 0; i < matrices[0].rows; i++) 
+			for (int j = 0; j < matrices[0].columns; j++) 
+				for (int k = 0; k < matrices.length; k++)
+					tensor[i][j][k] = matrices[k].get(i, j);
+		
+		return tensor;
+	}
 	
 	/*
 	 * My implementation for RGB to YPbPr conversion. 
@@ -86,23 +103,6 @@ public class ImageConverter {
 		return ypbprImagePixels;
 	}
 
-	
-	/*
-	 * Convert matrix array to tensor [rows][columns][channels]
-	 */
-	private static float[][][] matrixToTensor(FloatMatrix[] matrices) {
-		float[][][] tensor = new float[matrices[0].rows]
-									[matrices[0].columns]
-									[matrices.length];
-		
-	
-		for (int i = 0; i < matrices[0].rows; i++) 
-			for (int j = 0; j < matrices[0].columns; j++) 
-				for (int k = 0; k < matrices.length; k++)
-					tensor[i][j][k] = matrices[k].get(i, j);
-		
-		return tensor;
-	}
 
 	/*
 	 * This provides the standard routine for color conversion
