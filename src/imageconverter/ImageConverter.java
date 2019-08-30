@@ -3,13 +3,10 @@ package imageconverter;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import javax.imageio.ImageIO;
 
 import org.jblas.FloatMatrix;
 
@@ -89,15 +86,32 @@ public class ImageConverter {
 		return ypbprImagePixels;
 	}
 
+	
+	/*
+	 * Convert matrix array to tensor [rows][columns][channels]
+	 */
+	private static float[][][] matrixToTensor(FloatMatrix[] matrices) {
+		float[][][] tensor = new float[matrices[0].rows]
+									[matrices[0].columns]
+									[matrices.length];
+		
+	
+		for (int i = 0; i < matrices[0].rows; i++) 
+			for (int j = 0; j < matrices[0].columns; j++) 
+				for (int k = 0; k < matrices.length; k++)
+					tensor[i][j][k] = matrices[k].get(i, j);
+		
+		return tensor;
+	}
 
 	/*
 	 * This provides the standard routine for color conversion
+	 * Returns the pixel in a tensor shape [width][height][channels]
 	 */
-	public static BufferedImage rgbConvertRoutine(	File rgbImageFile, 
+	public static float[][][] rgbConvertRoutine(File rgbImageFile, 
 											Function<FloatMatrix[], FloatMatrix[]> colorSpaceConversion){
 		BufferedImage rgbImage = null;
-		BufferedImage ypbprImage = null;
-
+		
 		FloatMatrix[] rgbImagePixels;
 		FloatMatrix[] ypbprImagePixels;
 		
@@ -111,11 +125,7 @@ public class ImageConverter {
 		rgbImagePixels = createRGBMatricesFast(rgbImage);
 		ypbprImagePixels = colorSpaceConversion.apply(rgbImagePixels);
 		
-		
-		// fill ypbprImage
-		// what should i return?
-		
-		return ypbprImage;
+		return matrixToTensor(ypbprImagePixels);
 	}	
 	
 	
