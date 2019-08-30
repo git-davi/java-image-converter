@@ -41,6 +41,12 @@ public class BicubicInterp {
 	public static void resizeImage(File smallImageFile, double scale) {
 		BufferedImage scaledImage = null;
 		BufferedImage smallImage = readImage(smallImageFile);
+		
+		if (smallImage.getType() != BufferedImage.TYPE_3BYTE_BGR) {
+			System.out.println("Not able to convert this image");
+			System.exit(1);
+		}
+		
 		final int newWidth = smallImage.getWidth() * (int) scale;
 		final int newHeight = smallImage.getHeight() * (int) scale;
 		
