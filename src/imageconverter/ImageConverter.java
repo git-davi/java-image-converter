@@ -4,9 +4,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
 import java.nio.FloatBuffer;
-import java.util.Arrays;
+
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import org.jblas.FloatMatrix;
 
@@ -128,11 +127,4 @@ public class ImageConverter {
 		return matrixToTensor(ypbprImagePixels);
 	}	
 	
-	
-	/*
-	 * Method for flatting an Array.
-	 */
-	public static Stream<Object> flatten(Object[] array) {
-	    return Arrays.stream(array).flatMap(o -> o instanceof Object[]? flatten((Object[])o): Stream.of(o));
-	}
 }
