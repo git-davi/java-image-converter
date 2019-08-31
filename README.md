@@ -5,8 +5,7 @@ Useful to translate an image to a tensor. The output will be a tensor ```float[]
 \
 Also bicubic interpolation has been added.
 
->_Only **RGB to Ypbpr** has been implemented._\
-> _Consistency hasn't been tested_ 
+>_Only **RGB to YCbCr** has been implemented._
 
 
 
