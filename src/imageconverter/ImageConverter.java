@@ -65,7 +65,7 @@ public class ImageConverter {
 		
 		matrix = new FloatMatrix(rows, columns, (float[]) tmpBuffer.array());
 		
-		return matrix;
+		return matrix.transpose();
 	}
 		
 	
