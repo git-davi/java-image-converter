@@ -1,6 +1,8 @@
 # java-image-converter
 
 Class for ***FAST*** color space conversion.\
+**I founded hard to get a rgb to ypbpr color conversion on the web so I decided to implement one.**\
+\
 Useful to translate an image to a tensor. The output will be a tensor ```float[][][]``` of shape {width, heigth, channels}\
 \
 Also bicubic interpolation has been added.\
